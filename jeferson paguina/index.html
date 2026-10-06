@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#8f5522">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mi Crédito">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Mi Crédito</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo">$</div>
+      <h1>Mi Crédito</h1>
+      <p class="auth-sub" id="authSubtitle">Elige cómo quieres ingresar.</p>
+
+      <div id="authChoices" class="auth-choices">
+        <button class="role-choice" type="button" onclick="elegirAcceso('admin')"><span>🛡️</span><b>Administrador</b><small>Gestionar usuarios y plataformas</small></button>
+        <button class="role-choice" type="button" onclick="elegirAcceso('user')"><span>👤</span><b>Usuario</b><small>Entrar a mi plataforma</small></button>
+      </div>
+
+      <form id="loginForm" class="auth-form" style="display:none">
+        <div id="loginModeBadge" class="login-mode-badge">Usuario</div>
+        <label>Usuario<input id="loginUser" autocomplete="username" required placeholder="Ej. yeison"></label>
+        <label>Contraseña<input id="loginPass" type="password" autocomplete="current-password" required placeholder="Tu contraseña"></label>
+        <button class="green-btn full" type="submit">Iniciar sesión</button>
+        <button id="registerLink" class="auth-link" type="button" onclick="mostrarRegistro()">Crear una cuenta de usuario</button>
+        <button class="auth-link" type="button" onclick="volverEleccionAcceso()">← Elegir otro acceso</button>
+      </form>
+
+      <form id="registerForm" class="auth-form" style="display:none">
+        <div class="login-mode-badge">Nueva cuenta de usuario</div>
+        <label>Nombre<input id="registerName" autocomplete="name" required placeholder="Tu nombre"></label>
+        <label>Usuario<input id="registerUser" autocomplete="username" required placeholder="Ej. yeison"></label>
+        <label>Contraseña<input id="registerPass" type="password" autocomplete="new-password" minlength="6" required placeholder="Mínimo 6 caracteres"></label>
+        <label>Repetir contraseña<input id="registerPass2" type="password" autocomplete="new-password" minlength="6" required placeholder="Repite tu contraseña"></label>
+        <button class="green-btn full" type="submit">Crear cuenta</button>
+        <button class="auth-link" type="button" onclick="mostrarLogin()">Ya tengo una cuenta</button>
+      </form>
+      <p id="authMessage" class="auth-message"></p>
+    </div>
+  </section>
+
+  <section id="adminDashboard" class="admin-dashboard" style="display:none">
+    <div class="admin-dashboard-top">
+      <div><span class="admin-badge">Administrador</span><h1>Panel de administración</h1><p>Gestiona las cuentas registradas y entra a sus plataformas.</p></div>
+      <button class="logout-btn" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
+    </div>
+    <div class="admin-dashboard-cards">
+      <div><small>Usuarios registrados</small><b id="adminTotalUsers">0</b></div>
+      <div><small>Usuarios activos</small><b id="adminActiveUsers">0</b></div>
+      <div><small>Plataformas bloqueadas</small><b id="adminBlockedUsers">0</b></div>
+    </div>
+    <div class="admin-users-card">
+      <div class="admin-users-head"><div><h2>Usuarios registrados</h2><p>Entra a una cuenta para ver y manejar su plataforma.</p></div></div>
+      <div id="adminUsersList" class="admin-users-list"></div>
+    </div>
+  </section>
+
+  <div class="app">
+    <section id="inicio" class="home-screen">
+      <div class="home-hero">
+        <div class="home-top">
+          <button class="home-status" id="platformStatus">Activo por 30 días</button>
+          <button class="settings-btn" onclick="abrirMenu()"><span>⚙</span> Ajustes</button>
+        </div>
+        <div class="admin-card">
+          <div class="admin-line"><span class="admin-badge">Administrador</span><span class="admin-user">svjhon2898</span></div>
+          <div class="admin-divider"></div>
+          <div class="admin-bottom"><div><b>Base</b><span id="homeBase">$0</span></div><span id="homeDate">sábado 19</span></div>
+        </div>
+      </div>
+
+      <div class="portfolio-bar">
+        <button class="portfolio-select" onclick="abrirCarteras()"><span><small>Cartera:</small><b>yeison</b></span><span class="down-arrow">⌄</span></button>
+        <button class="download-btn" onclick="exportarDatos()">Descargar</button>
+      </div>
+
+      <div class="home-grid">
+        <button class="home-tile" onclick="irClientes()"><span class="tile-icon">♙</span><b>yeison</b></button>
+        <button class="home-tile" onclick="liquidar()"><span class="tile-icon money-icon">$</span><b>Liquidar</b></button>
+        <button class="home-tile" onclick="verIngresos()"><span class="tile-icon">↗</span><b>Ingresos</b></button>
+        <button class="home-tile" onclick="verEgresos()"><span class="tile-icon">↘</span><b>Egresos</b></button>
+        <button class="home-tile" onclick="verHistorialGeneral()"><span class="tile-icon history-icon">↶</span><b>Historial</b></button>
+        <button class="home-tile" onclick="verInfo()"><span class="tile-icon info-icon">ⓘ</span><b>Info</b></button>
+        <button class="home-tile" onclick="abrirCarteras()"><span class="tile-icon">▣</span><b>Carteras</b></button>
+        <button class="home-tile save-tile" onclick="guardarDatos()"><span class="tile-icon">☁</span><b>Guardar</b><span class="wa-float">◔</span></button>
+      </div>
+    </section>
+
+    <header class="mobile-top">
+      <button class="icon-btn" title="Inicio" onclick="irInicio()">‹</button>
+      <div class="search-box"><input id="buscar" placeholder="Buscar en clientes" autocomplete="off"><span>⌕</span></div>
+      <button class="icon-btn" id="filtroBtn" title="Filtrar">≡</button>
+      <button class="icon-btn" id="menuBtn" title="Menú">⋮</button>
+    </header>
+
+    <main>
+      <section id="clientes" class="client-list"></section>
+      <div id="sinClientes" class="empty">
+        <div>👥</div><h2>No hay clientes</h2><p>Agrega tu primer cliente para comenzar.</p>
+      </div>
+    </main>
+
+    <button class="fab" onclick="abrirFormulario()"><b>＋</b><span>Agregar</span></button>
+
+    <section id="nuevoModal" class="modal">
+      <div class="sheet form-sheet">
+        <button class="close" onclick="cerrarFormulario()">×</button>
+        <h2>Agregar cliente</h2>
+        <p class="sub">Registra los datos del crédito.</p>
+        <form id="clienteForm">
+          <label>Nombre completo<input id="nombre" required placeholder="Ej. Brayan"></label>
+          <label>Teléfono / WhatsApp<input id="telefono" required placeholder="3001234567" inputmode="tel"></label>
+          <label>Dirección / barrio<input id="direccion" placeholder="Ej. Boza"></label>
+          <div class="two-col">
+            <label>Crédito<input id="prestamo" required type="number" min="1" step="1" placeholder="300"></label>
+            <label>Interés (%)<input id="interes" required type="number" min="0" step="0.01" placeholder="20"></label>
+          </div>
+          <div class="two-col">
+            <label>Cuotas<input id="cuotas" required type="number" min="1" step="1" placeholder="24"></label>
+            <label>Frecuencia<select id="frecuencia"><option>Diario</option><option>Semanal</option><option>Quincenal</option><option>Mensual</option></select></label>
+          </div>
+          <label>Fecha de inicio<input id="fechaInicio" type="date"></label>
+          <div class="preview"><div><span>Total con interés</span><b id="previewTotal">$0</b></div><div><span>Valor de cuota</span><b id="previewCuota">$0</b></div></div>
+          <button class="green-btn full" type="submit">Guardar cliente</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="clienteModal" class="modal" aria-hidden="true">
+      <div class="client-card">
+        <div id="clienteCard"></div>
+      </div>
+    </section>
+
+    <section id="pagoModal" class="modal">
+      <div class="sheet payment-sheet">
+        <button class="close" onclick="cerrarPago()">×</button>
+        <h2>Registrar abono</h2>
+        <p id="clientePago" class="sub"></p>
+        <label>Valor del abono<input id="valorPago" type="number" min="1" step="1" placeholder="15"></label>
+        <div class="payment-actions"><button class="red-btn" onclick="registrarNoPago()">No pago</button><button class="green-btn" onclick="registrarPago()">Abonar</button></div>
+      </div>
+    </section>
+
+    <section id="editarModal" class="modal">
+      <div class="sheet edit-sheet">
+        <button class="close" onclick="cerrarEdicion()">×</button>
+        <h2>Editar cliente</h2>
+        <p class="sub">Actualiza cualquier dato del cliente.</p>
+        <form id="editarForm">
+          <label>Mover al puesto<select id="editNumero" required></select></label>
+          <label>Nombre completo<input id="editNombre" required></label>
+          <label>Teléfono / WhatsApp<input id="editTelefono" required inputmode="tel"></label>
+          <label>Dirección / barrio<input id="editDireccion"></label>
+          <div class="two-col">
+            <label>Crédito<input id="editPrestamo" required type="number" min="1" step="1"></label>
+            <label>Interés (%)<input id="editInteres" required type="number" min="0" step="0.01"></label>
+          </div>
+          <div class="two-col">
+            <label>Cuotas<input id="editCuotas" required type="number" min="1" step="1"></label>
+            <label>Frecuencia<select id="editFrecuencia"><option>Diario</option><option>Semanal</option><option>Quincenal</option><option>Mensual</option></select></label>
+          </div>
+          <label>Fecha de inicio<input id="editFechaInicio" type="date" required></label>
+          <div class="edit-preview"><span>Saldo actual</span><b id="editSaldo">$0</b></div>
+          <button class="green-btn full" type="submit">Guardar cambios</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="historialModal" class="modal">
+      <div class="sheet history-sheet"><button class="close" onclick="cerrarHistorial()">×</button><div id="historialContenido"></div></div>
+    </section>
+
+    <section id="menuModal" class="modal"><div class="sheet menu-sheet"><button class="close" onclick="cerrarMenu()">×</button><h2>Ajustes</h2><button onclick="irClientes();cerrarMenu()">👥 Clientes</button><button id="adminMenuBtn" onclick="abrirAdminPanel();cerrarMenu()" style="display:none">🛡️ Panel administrador</button><button id="returnAdminBtn" onclick="volverAdmin();cerrarMenu()" style="display:none">↩️ Volver al administrador</button><button onclick="instalarApp()">📱 Instalar aplicación</button><button onclick="exportarDatos()">💾 Descargar / compartir copia de seguridad</button><button onclick="cerrarSesion()" class="logout-btn">🚪 Cerrar sesión</button><button onclick="borrarTodo()" class="danger-text">🗑 Borrar todos los clientes</button></div></section>
+
+    <section id="infoModal" class="modal"><div class="sheet menu-sheet"><button class="close" onclick="hide('infoModal')">×</button><h2>Información</h2><p class="sub">Resumen de tu plataforma</p><div class="info-home"><div><b id="infoClientes">0</b><span>Clientes</span></div><div><b id="infoPrestado">$0</b><span>Crédito</span></div><div><b id="infoSaldo">$0</b><span>Saldo</span></div></div></div></section>
+    <section id="carterasModal" class="modal"><div class="sheet portfolio-sheet"><button class="close" onclick="hide('carterasModal')">×</button><h2>Carteras</h2><p class="sub">Crea y cambia de cartera. Los clientes se pueden mover entre ellas.</p><div id="carterasLista" class="portfolios-list"></div><div class="new-portfolio"><input id="nuevaCartera" placeholder="Ej. jeferson"><button class="green-btn" onclick="crearCartera()">+ Crear</button></div></div></section>
+
+<section id="finanzasModal" class="modal"><div class="sheet finance-sheet"><button class="close" onclick="hide('finanzasModal')">×</button><div id="finanzasContenido"></div></div></section>
+<section id="gastoModal" class="modal"><div class="sheet compact-sheet"><button class="close" onclick="hide('gastoModal')">×</button><h2>Registrar gasto</h2><p class="sub">Guarda los gastos de esta cartera.</p><form id="gastoForm"><label>Descripción<input id="gastoDescripcion" required placeholder="Ej. transporte"></label><label>Valor<input id="gastoValor" required type="number" min="1" step="1" inputmode="numeric"></label><label>Fecha<input id="gastoFecha" type="date" required></label><label>Cartera<select id="gastoCartera"></select></label><button class="green-btn full" type="submit">Guardar gasto</button></form></div></section>
+<section id="moverModal" class="modal"><div class="sheet compact-sheet"><button class="close" onclick="hide('moverModal')">×</button><h2>Mover cliente</h2><p class="sub">El cliente seguirá con su historial y saldo.</p><form id="moverForm"><input id="moverClienteId" type="hidden"><label>Enviar a<select id="moverDestino"></select></label><button class="green-btn full" type="submit">Mover cliente</button></form></div></section>
+<section id="renovarModal" class="modal"><div class="sheet compact-sheet"><button class="close" onclick="hide('renovarModal')">×</button><h2>Renovar crédito</h2><p class="sub">Se crea un nuevo crédito cuando el anterior quedó en $0.</p><form id="renovarForm"><input id="renovClienteId" type="hidden"><label>Nombre<input id="renovNombre" readonly></label><label>Teléfono<input id="renovTelefono" readonly></label><div class="two-col"><label>Crédito nuevo<input id="renovPrestamo" required type="number" min="1"></label><label>Interés (%)<input id="renovInteres" required type="number" min="0" step="0.01"></label></div><div class="two-col"><label>Cuotas / días<input id="renovCuotas" required type="number" min="1"></label><label>Frecuencia<select id="renovFrecuencia"><option>Diario</option><option>Semanal</option><option>Quincenal</option><option>Mensual</option></select></label></div><label>Fecha de inicio<input id="renovFecha" type="date" required></label><label>Dirección<input id="renovDireccion" readonly></label><button class="green-btn full" type="submit">Crear renovación</button></form></div></section>
+  </div>
+
+  <script src="script.js"></script>
+  <script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
+
+  <section id="adminModal" class="modal" aria-hidden="true">
+    <div class="sheet finance-sheet admin-sheet">
+      <button class="close" onclick="cerrarAdminPanel()">×</button>
+      <div id="adminContenido"></div>
+    </div>
+  </section>
+</body>
+</html>

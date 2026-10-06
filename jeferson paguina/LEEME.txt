@@ -1,0 +1,33 @@
+MI CRÉDITO — V3 MULTIDISPOSITIVO
+
+CAMBIOS REALIZADOS
+1. Los usuarios ya NO se guardan en localStorage como fuente principal.
+2. Se agregó un servidor Node.js con almacenamiento central en data.json.
+3. Un usuario registrado desde celular, computador u otro dispositivo aparece en el mismo panel de administrador.
+4. El administrador puede entrar a la plataforma de cualquier usuario y ver/editar la misma cartera almacenada en el servidor.
+5. Bloquear/desbloquear usuarios se guarda en el servidor.
+6. El contador de la plataforma ahora inicia en 30 días desde la creación de la cuenta.
+7. El contador muestra 30, 29, 28... 1. Cuando llega a 0 aparece: "Debes pagar tu plataforma."
+8. El contador se calcula por fecha, por lo que no depende de dejar abierta la página.
+9. El Service Worker fue actualizado para no cachear las respuestas de la API.
+
+INICIO LOCAL
+Requisito: Node.js 18 o superior.
+
+1. Abre una terminal dentro de esta carpeta.
+2. Ejecuta:
+   node server.js
+3. Abre en el navegador:
+   http://localhost:3000
+
+ADMINISTRADOR
+Usuario: jeferson
+Contraseña: admin123
+
+IMPORTANTE PARA USARLO EN CELULAR + COMPUTADOR
+La aplicación debe estar publicada en un servidor accesible desde Internet o en una red local compartida. No sirve abrir directamente index.html con doble clic, porque en ese caso no existe la API central.
+
+Para Internet puedes subir esta carpeta a un servicio que ejecute Node.js. El archivo data.json contiene las cuentas y los datos de las plataformas, por lo que el servidor debe conservar ese archivo entre reinicios/despliegues.
+
+SEGURIDAD
+Antes de usarla con dinero real, cambia la contraseña del administrador y agrega HTTPS. Esta versión está preparada como base funcional multidispositivo, pero no debe considerarse una solución bancaria de producción sin endurecimiento adicional de seguridad, copias de seguridad y control de acceso.
