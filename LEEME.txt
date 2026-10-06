@@ -1,0 +1,24 @@
+MI CRÉDITO — V2 PRUEBA
+
+ACCESO INICIAL
+Al abrir la plataforma aparecen dos opciones:
+1. Administrador
+2. Usuario
+
+ADMINISTRADOR DE PRUEBA
+Usuario: jeferson
+Contraseña: admin123
+
+El administrador tiene un panel separado de la plataforma normal. Desde ahí puede:
+- Ver cuántos usuarios están registrados.
+- Ver usuarios activos y bloqueados.
+- Ver nombre, usuario, cantidad de clientes y saldo de cada usuario.
+- Entrar a la plataforma de un usuario.
+- Bloquear o desbloquear su plataforma.
+- Volver al panel administrativo después de revisar una plataforma.
+
+USUARIO
+Los usuarios se registran como cuentas de usuario. No existe una opción pública para crear administradores.
+
+NOTA
+Esta versión de prueba todavía guarda los datos en el navegador (localStorage). Por eso sirve para probar el flujo y las funciones en un mismo navegador. Para que el administrador pueda gestionar usuarios desde otro computador o celular y todos compartan los mismos datos, el siguiente paso es conectar una base de datos y autenticación de servidor.
